@@ -13,19 +13,19 @@ Currently `MCSMTabBar` doesn't support badges or drag an drop customization.
 
 ## MCSMTabBar
 
-To use `MCSMTabBar` you simply need to initalize an instance and become its datasource and more than likely its delegate too:
+To use `MCSMTabBar` you simply need to initalize an instance and become its Data Source and more than likely its Delegate too:
 
 	MCSMTabBar *tabBar = [[MCSMTabBar alloc] initWithStyle:MCSMTabBarStyleDefault];
-	tabBar.tabBarDatasource = (id<MCSMTabBarDatasource>)self;
+	tabBar.tabBarDataSource = (id<MCSMTabBarDataSource>)self;
 	tabBar.tabBarDelegate = (id<MCSMTabBarDelegate>)self;
 
 
 If you want to customize the layout ot the Tab Bar you will want to subclass `MCSMTabBar` and set the style to `MCSMTabBarStyleCustom`
 
-The Datasource only has 2 methods both of which are required:
+The Data Source only has 2 methods both of which are required:
 
 
-	@protocol MCSMTabBarDatasource <NSObject>
+	@protocol MCSMTabBarDataSource <NSObject>
 	
 	@required
 	- (NSUInteger)numberOfTabsInTabBar:(MCSMTabBar *)tabBar;
@@ -33,7 +33,7 @@ The Datasource only has 2 methods both of which are required:
 	
 	@end
 	
-The delegate has two optional methods for managing selection:
+The Delegate has two optional methods for managing selection:
 
 	@protocol MCSMTabBarDelegate <NSObject>
 
@@ -84,9 +84,9 @@ Then set the view controllers you want to be in the Tab Bar Controller:
 
 	[tabBarController setViewControllers:viewControllers];
 
-If you want to customize the `MCSMTabBarItemViews` in the Tab Bar, you can become the Tab Bar Controller's Datasource and Implement `tabBarController:tabBarItemViewForViewController:`
+If you want to customize the `MCSMTabBarItemViews` in the Tab Bar, you can become the Tab Bar Controller's Data Source and Implement `tabBarController:tabBarItemViewForViewController:`
 
-	@protocol MCSMTabBarControllerDatasource <NSObject>
+	@protocol MCSMTabBarControllerDataSource <NSObject>
 	
 	@optional
 	- (MCSMTabBarItemView *)tabBarController:(MCSMTabBarController *)tabBarController tabBarItemViewForViewController:(UIViewController *)viewController;

@@ -10,7 +10,7 @@
 
 @class MCSMTabBarItemView;
 
-@protocol MCSMTabBarDatasource;
+@protocol MCSMTabBarDataSource;
 @protocol MCSMTabBarDelegate;
 
 
@@ -21,7 +21,7 @@ typedef enum {
 
 @interface MCSMTabBar : UIView
 
-@property (nonatomic,assign) id <MCSMTabBarDatasource> tabBarDatasource;
+@property (nonatomic,assign) id <MCSMTabBarDataSource> tabBarDataSource;
 @property (nonatomic,assign) id <MCSMTabBarDelegate> tabBarDelegate;
 
 @property (nonatomic,assign) NSUInteger selectedTabIndex;
@@ -36,17 +36,17 @@ typedef enum {
 
 @end
 
-@protocol MCSMTabBarDatasource <NSObject>
+@protocol MCSMTabBarDataSource <NSObject>
 
 @required
 - (NSUInteger)numberOfTabsInTabBar:(MCSMTabBar *)tabBar;
-
 - (MCSMTabBarItemView *)tabBar:(MCSMTabBar *)tabBar tabBarItemViewForTabAtIndex:(NSUInteger)index;
 
 @end
 
 @protocol MCSMTabBarDelegate <NSObject>
 
+@optional
 - (BOOL)tabBar:(MCSMTabBar *)tabBar shouldSelectTabAtIndex:(NSUInteger)index;
 - (void)tabBar:(MCSMTabBar *)tabBar didSelectTabAtIndex:(NSUInteger)index;
 

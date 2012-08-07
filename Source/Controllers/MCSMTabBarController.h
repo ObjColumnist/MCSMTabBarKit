@@ -12,7 +12,7 @@
 @class MCSMTabBar;
 @class MCSMTabBarItemView;
 
-@protocol MCSMTabBarControllerDatasource;
+@protocol MCSMTabBarControllerDataSource;
 @protocol MCSMTabBarControllerDelegate;
 
 typedef enum{
@@ -22,7 +22,7 @@ typedef enum{
 
 @interface MCSMTabBarController : UIViewController
 
-@property (nonatomic,retain) id <MCSMTabBarControllerDatasource> tabBarControllerDatasource;
+@property (nonatomic,retain) id <MCSMTabBarControllerDataSource> tabBarControllerDataSource;
 
 @property (nonatomic,retain) id <MCSMTabBarControllerDelegate> tabBarControllerDelegate;
 @property (nonatomic,assign) MCSMTabBarControllerTabBarPosition tabBarPosition;
@@ -45,7 +45,7 @@ typedef enum{
 
 @end
 
-@protocol MCSMTabBarControllerDatasource <NSObject>
+@protocol MCSMTabBarControllerDataSource <NSObject>
 
 @optional
 

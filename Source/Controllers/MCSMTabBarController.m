@@ -12,7 +12,7 @@
 
 @implementation MCSMTabBarController
 
-@synthesize tabBarControllerDatasource = tabBarControllerDatasource_;
+@synthesize tabBarControllerDataSource = tabBarControllerDataSource_;
 @synthesize tabBarControllerDelegate = tabBarControllerDelegate_;
 @synthesize tabBarPosition = tabBarPosition_;
 
@@ -35,7 +35,7 @@
 
 - (id)initWithTabBar:(MCSMTabBar *)tabBar{
     
-    if((self = [super init])){
+    if((self = [self init])){
         [self setTabBar:tabBar];
     }
     
@@ -46,7 +46,7 @@
 - (id)initWithStyle:(MCSMTabBarStyle)style{
     
     MCSMTabBar *tabBar = [[MCSMTabBar alloc] initWithStyle:style];
-    tabBar.tabBarDatasource = (id<MCSMTabBarDatasource>)self;
+    tabBar.tabBarDataSource = (id<MCSMTabBarDataSource>)self;
     tabBar.tabBarDelegate = (id<MCSMTabBarDelegate>)self;
     [self setTabBar:tabBar];
     
@@ -226,7 +226,7 @@
     if(!tabBar_)
     {
         MCSMTabBar *tabBar = [[MCSMTabBar alloc] initWithStyle:MCSMTabBarStyleDefault];
-        tabBar.tabBarDatasource = (id<MCSMTabBarDatasource>)self;
+        tabBar.tabBarDataSource = (id<MCSMTabBarDataSource>)self;
         tabBar.tabBarDelegate = (id<MCSMTabBarDelegate>)self;
         [self setTabBar:tabBar];
         [tabBar release];
@@ -381,7 +381,7 @@
 
 
 #pragma mark -
-#pragma mark MCSMTabBarDatasource
+#pragma mark MCSMTabBarDataSource
 
 - (NSUInteger)numberOfTabsInTabBar:(MCSMTabBar *)tabBar{
     return [self.viewControllers count];
@@ -392,10 +392,10 @@
     
     MCSMTabBarItemView *tabBarItemView = nil;
     
-    if([self.tabBarControllerDatasource respondsToSelector:@selector(tabBarController:tabBarItemViewForViewController:)])
+    if([self.tabBarControllerDataSource respondsToSelector:@selector(tabBarController:tabBarItemViewForViewController:)])
     {
         UIViewController *viewController = [self.viewControllers objectAtIndex:index];
-        tabBarItemView = [self.tabBarControllerDatasource tabBarController:self tabBarItemViewForViewController:viewController];
+        tabBarItemView = [self.tabBarControllerDataSource tabBarController:self tabBarItemViewForViewController:viewController];
     }else if([[self.viewControllers objectAtIndex:index] tabBarItem]){
         
         UITabBarItem *tabBarItem = [[self.viewControllers objectAtIndex:index] tabBarItem];

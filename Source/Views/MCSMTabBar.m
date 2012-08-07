@@ -14,7 +14,7 @@
     NSMutableArray *tabBarItemViews_;
 }
 
-@synthesize tabBarDatasource = tabBarDatasource_;
+@synthesize tabBarDataSource = tabBarDataSource_;
 @synthesize tabBarDelegate = tabBarDelegate_;
 @synthesize selectedTabIndex = selectedTabIndex_;
 @synthesize backgroundView = backgroundView_;
@@ -65,7 +65,7 @@
     [tapGestureRecognizer_ release], tapGestureRecognizer_ = nil;
     [tabBarItemViews_ release], tabBarItemViews_ = nil;
     
-    self.tabBarDatasource = nil;
+    self.tabBarDataSource = nil;
     self.tabBarDelegate = nil;
     
     [super dealloc];
@@ -113,7 +113,7 @@
 
 - (void)reloadTabs{
     
-    if([self superview] && [self tabBarDatasource])
+    if([self superview] && [self tabBarDataSource])
     {
         for(MCSMTabBarItemView *tabBarItemView in tabBarItemViews_){
             [tabBarItemView removeFromSuperview];
@@ -121,7 +121,7 @@
         
         [tabBarItemViews_ removeAllObjects];
         
-        NSUInteger numberOfTabs = [self.tabBarDatasource numberOfTabsInTabBar:self];
+        NSUInteger numberOfTabs = [self.tabBarDataSource numberOfTabsInTabBar:self];
         
         if(self.selectedTabIndex > numberOfTabs)
         {
@@ -132,7 +132,7 @@
         
         for (NSUInteger i= 0; i < numberOfTabs; i++) {
                         
-            MCSMTabBarItemView *tabBarItemView = [self.tabBarDatasource tabBar:self tabBarItemViewForTabAtIndex:i];
+            MCSMTabBarItemView *tabBarItemView = [self.tabBarDataSource tabBar:self tabBarItemViewForTabAtIndex:i];
             
             tabBarItemView.frame = CGRectMake(tabWidth * i, 0, tabWidth, self.frame.size.height);
             
