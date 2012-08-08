@@ -48,7 +48,6 @@
     MCSMTabBar *tabBar = [[MCSMTabBar alloc] initWithStyle:style];
     tabBar.tabBarDataSource = (id<MCSMTabBarDataSource>)self;
     tabBar.tabBarDelegate = (id<MCSMTabBarDelegate>)self;
-    [self setTabBar:tabBar];
     
     if((self = [self initWithTabBar:tabBar])){
         
