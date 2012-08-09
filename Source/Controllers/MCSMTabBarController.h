@@ -20,7 +20,7 @@ typedef enum{
     MCSMTabBarControllerTabBarPositionTop
 }MCSMTabBarControllerTabBarPosition;
 
-@interface MCSMTabBarController : UIViewController
+@interface MCSMTabBarController : UIViewController <MCSMTabBarDataSource, MCSMTabBarDelegate>
 
 @property (nonatomic,retain) id <MCSMTabBarControllerDataSource> tabBarControllerDataSource;
 

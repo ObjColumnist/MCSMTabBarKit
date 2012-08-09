@@ -34,6 +34,8 @@ typedef enum {
 + (UIImage *)imageForUnfinishedImage:(UIImage *)image style:(MCSMTabBarItemViewStyle)style;
 + (UIImage *)selectedImageForUnfinishedImage:(UIImage *)image style:(MCSMTabBarItemViewStyle)style;
 
++ (id)tabBarItemViewWithStyle:(MCSMTabBarItemViewStyle)style;
+
 - (id)initWithStyle:(MCSMTabBarItemViewStyle)style;
 
 - (void)setImage:(UIImage *)image selectedImage:(UIImage *)selectedImage;

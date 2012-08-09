@@ -85,6 +85,15 @@
         backgroundView_.frame = self.bounds;
     }
 }
+
+- (void)setBackgroundView:(UIView *)backgroundView{
+    [backgroundView_ removeFromSuperview], [backgroundView_ release];
+    backgroundView_ = [backgroundView retain];
+    
+    [self insertSubview:backgroundView_ atIndex:0];
+    
+    [self setNeedsLayout];
+}
 - (void)setSelectedTabIndex:(NSUInteger)selectedTabIndex{
     
     if(selectedTabIndex_ != selectedTabIndex)

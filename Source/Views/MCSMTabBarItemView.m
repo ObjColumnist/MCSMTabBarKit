@@ -56,6 +56,10 @@
     
 }
 
++ (id)tabBarItemViewWithStyle:(MCSMTabBarItemViewStyle)style{
+    return [[[[self class] alloc] initWithStyle:style] autorelease];
+}
+
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
