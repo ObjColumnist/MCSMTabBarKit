@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "MCSMTabBar.h"
+@class MCSMTabBar;
 
-typedef enum {
+typedef enum MCSMTabBarItemViewStyle : NSUInteger{
     MCSMTabBarItemViewStyleCustom = MCSMTabBarStyleCustom,
     MCSMTabBarItemViewStyleDefault = MCSMTabBarStyleDefault
 } MCSMTabBarItemViewStyle;

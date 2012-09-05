@@ -7,7 +7,6 @@
 //
 
 #import "MCSMTabBarController.h"
-#import "MCSMTabBar.h"
 #import "MCSMTabBarItemView.h"
 
 @implementation MCSMTabBarController
@@ -287,7 +286,7 @@
         [self.view addSubview:viewController.view];
     }else{
         
-        CGRect tabBarFrame =  self.tabBar.frame;
+        CGRect tabBarFrame = self.tabBar.frame;
         
         if(tabBarFrame.size.height == 0)
         {

@@ -15,7 +15,7 @@
 @protocol MCSMTabBarControllerDataSource;
 @protocol MCSMTabBarControllerDelegate;
 
-typedef enum{
+typedef enum MCSMTabBarControllerTabBarPosition : NSUInteger{
     MCSMTabBarControllerTabBarPositionBottom,
     MCSMTabBarControllerTabBarPositionTop
 }MCSMTabBarControllerTabBarPosition;

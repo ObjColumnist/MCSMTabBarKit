@@ -14,7 +14,7 @@
 @protocol MCSMTabBarDelegate;
 
 
-typedef enum {
+typedef enum MCSMTabBarStyle : NSUInteger{
     MCSMTabBarStyleCustom,
     MCSMTabBarStyleDefault
 } MCSMTabBarStyle;

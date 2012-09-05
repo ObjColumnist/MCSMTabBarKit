@@ -79,7 +79,16 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
+        
+    NSUInteger numberOfTabs = [tabBarItemViews_ count];
+
+    CGFloat tabWidth = self.frame.size.width / numberOfTabs;
     
+    for (NSUInteger i= 0; i < numberOfTabs; i++) {
+        MCSMTabBarItemView *tabBarItemView = [tabBarItemViews_ objectAtIndex:i];
+        tabBarItemView.frame = CGRectMake(tabWidth * i, 0, tabWidth, self.frame.size.height);
+    }
+
     if(style_ == MCSMTabBarStyleDefault)
     {
         backgroundView_.frame = self.bounds;
@@ -137,16 +146,12 @@
             self.selectedTabIndex = 0;
         }
                 
-        CGFloat tabWidth = self.frame.size.width / numberOfTabs;
+        
         
         for (NSUInteger i= 0; i < numberOfTabs; i++) {
                         
             MCSMTabBarItemView *tabBarItemView = [self.tabBarDataSource tabBar:self tabBarItemViewForTabAtIndex:i];
-            
-            tabBarItemView.frame = CGRectMake(tabWidth * i, 0, tabWidth, self.frame.size.height);
-            
-            tabBarItemView.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleHeight);
-                        
+                                                
             [tabBarItemViews_ addObject:tabBarItemView];
             
             [self addSubview:tabBarItemView];
@@ -158,6 +163,8 @@
                 [tabBarItemView setSelected:NO animated:YES]; 
             }
         }
+        
+        [self setNeedsLayout];
     }
     
 }
