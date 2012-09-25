@@ -14,6 +14,8 @@
 @protocol MCSMTabBarDelegate;
 
 
+extern const CGFloat MCSMTabBarAutomaticDimension;
+
 typedef enum MCSMTabBarStyle : NSUInteger{
     MCSMTabBarStyleCustom,
     MCSMTabBarStyleDefault
@@ -49,6 +51,7 @@ typedef enum MCSMTabBarStyle : NSUInteger{
 @optional
 - (BOOL)tabBar:(MCSMTabBar *)tabBar shouldSelectTabAtIndex:(NSUInteger)index;
 - (void)tabBar:(MCSMTabBar *)tabBar didSelectTabAtIndex:(NSUInteger)index;
+- (CGFloat)tabBar:(MCSMTabBar *)tabBar widthForTabAtIndex:(NSInteger)index;
 
 @end
 

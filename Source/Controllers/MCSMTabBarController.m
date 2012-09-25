@@ -420,6 +420,19 @@
 #pragma mark -
 #pragma mark MCSMTabBarDelegate
 
+- (CGFloat)tabBar:(MCSMTabBar *)tabBar widthForTabAtIndex:(NSInteger)index{
+    
+    CGFloat tabWidth = MCSMTabBarAutomaticDimension;
+    
+    if([self.tabBarControllerDelegate respondsToSelector:@selector(tabBarController:tabBar:widthForTabAtIndex:)])
+        
+    {
+        tabWidth = [self.tabBarControllerDelegate tabBarController:self tabBar:tabBar widthForTabAtIndex:index];
+    }
+        
+    return tabWidth;
+}
+
 - (BOOL)tabBar:(MCSMTabBar *)tabBar shouldSelectTabAtIndex:(NSUInteger)index{
     
     BOOL shouldSelectTabAtIndex = YES;

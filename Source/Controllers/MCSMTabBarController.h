@@ -57,14 +57,15 @@ typedef enum MCSMTabBarControllerTabBarPosition : NSUInteger{
 
 @optional
 
+- (CGFloat)tabBarController:(MCSMTabBarController *)tabBarController tabBar:(MCSMTabBar *)tabBar widthForTabAtIndex:(NSInteger)index;
 
 - (BOOL)tabBarController:(MCSMTabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController;
 - (void)tabBarController:(MCSMTabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController;
-
 
 - (BOOL)tabBarController:(MCSMTabBarController *)tabBarController shouldBecomeDelegateOfNavigationController:(UINavigationController *)navigationController;
 
 - (void)tabBarController:(MCSMTabBarController *)tabBarController navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated;
 - (void)tabBarController:(MCSMTabBarController *)tabBarController navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated;
+
 
 @end

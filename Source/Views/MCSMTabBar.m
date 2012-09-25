@@ -9,6 +9,9 @@
 #import "MCSMTabBar.h"
 #import "MCSMTabBarItemView.h"
 
+const CGFloat MCSMTabBarAutomaticDimension = CGFLOAT_MAX;
+
+
 @implementation MCSMTabBar{
     UITapGestureRecognizer *tapGestureRecognizer_;
     NSMutableArray *tabBarItemViews_;
@@ -82,11 +85,26 @@
         
     NSUInteger numberOfTabs = [tabBarItemViews_ count];
 
-    CGFloat tabWidth = self.frame.size.width / numberOfTabs;
+    CGFloat originX = 0;
     
     for (NSUInteger i= 0; i < numberOfTabs; i++) {
         MCSMTabBarItemView *tabBarItemView = [tabBarItemViews_ objectAtIndex:i];
-        tabBarItemView.frame = CGRectMake(tabWidth * i, 0, tabWidth, self.frame.size.height);
+        
+        CGFloat tabWidth = self.frame.size.width / numberOfTabs;
+
+        if([self.tabBarDelegate respondsToSelector:@selector(tabBar:widthForTabAtIndex:)])
+        {
+            CGFloat suggestedTabWidth = [self.tabBarDelegate tabBar:self widthForTabAtIndex:i];
+            
+            if(suggestedTabWidth != MCSMTabBarAutomaticDimension)
+            {
+                tabWidth = suggestedTabWidth;
+            }
+        }
+        
+        tabBarItemView.frame = CGRectMake(originX, 0, tabWidth, self.frame.size.height);
+        
+        originX += tabWidth;
     }
 
     if(style_ == MCSMTabBarStyleDefault)
