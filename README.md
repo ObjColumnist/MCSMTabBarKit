@@ -1,4 +1,4 @@
-# MCSMTabBar
+# MCSMTabBarKit
 
 __This is work in progress__ to provide a custom Tab Bar (and Tab Bar Controller) for situations where the default Tab Bar Controller `UITabBarController` isn't appropriate.
 
@@ -33,13 +33,14 @@ The Data Source only has 2 methods both of which are required:
 	
 	@end
 	
-The Delegate has two optional methods for managing selection:
+The Delegate has two optional methods for managing selection and one for managing the width of each tab:
 
 	@protocol MCSMTabBarDelegate <NSObject>
 
 	@optional
 	- (BOOL)tabBar:(MCSMTabBar *)tabBar shouldSelectTabAtIndex:(NSUInteger)index;
 	- (void)tabBar:(MCSMTabBar *)tabBar didSelectTabAtIndex:(NSUInteger)index;
+	- (CGFloat)tabBar:(MCSMTabBar *)tabBar widthForTabAtIndex:(NSInteger)index;
 	
 	@end
 
@@ -98,6 +99,8 @@ Like `UITabBarController` `MCSMTabBarController` has numerous delegate methods t
 	@protocol MCSMTabBarControllerDelegate <NSObject>
 	
 	@optional
+	
+	- (CGFloat)tabBarController:(MCSMTabBarController *)tabBarController tabBar:(MCSMTabBar *)tabBar widthForTabAtIndex:(NSInteger)index;
 		
 	- (BOOL)tabBarController:(MCSMTabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController;
 	- (void)tabBarController:(MCSMTabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController;
