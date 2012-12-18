@@ -22,9 +22,9 @@ typedef enum MCSMTabBarControllerTabBarPosition : NSUInteger{
 
 @interface MCSMTabBarController : UIViewController <MCSMTabBarDataSource, MCSMTabBarDelegate>
 
-@property (nonatomic,retain) id <MCSMTabBarControllerDataSource> tabBarControllerDataSource;
+@property (nonatomic,assign) id <MCSMTabBarControllerDataSource> tabBarControllerDataSource;
 
-@property (nonatomic,retain) id <MCSMTabBarControllerDelegate> tabBarControllerDelegate;
+@property (nonatomic,assign) id <MCSMTabBarControllerDelegate> tabBarControllerDelegate;
 @property (nonatomic,assign) MCSMTabBarControllerTabBarPosition tabBarPosition;
 
 @property (nonatomic,retain) NSArray *viewControllers;
