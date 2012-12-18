@@ -67,7 +67,6 @@
         imageView_ = [[UIImageView alloc] initWithFrame:CGRectZero];
         imageView_.contentMode = UIViewContentModeScaleAspectFit;
         [self addSubview:imageView_];
-        [imageView_ release];
         
         textLabel_ = [[UILabel alloc] initWithFrame:CGRectZero];
         textLabel_.textColor = [UIColor grayColor];
@@ -75,9 +74,7 @@
         textLabel_.textAlignment = UITextAlignmentCenter;
         textLabel_.font = [UIFont boldSystemFontOfSize:11];
         textLabel_.backgroundColor = [UIColor clearColor];
-        [self addSubview:textLabel_];
-        [textLabel_ release];
-        
+        [self addSubview:textLabel_];        
     }
     return self;
 }
