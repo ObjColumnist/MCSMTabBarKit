@@ -104,9 +104,16 @@
 }
 
 - (void)dealloc{
-    self.title = nil;
-    self.image = nil;
-    self.selectedImage = nil;
+
+    [textLabel_ release], textLabel_ = nil;
+    [imageView_ release], imageView_ = nil;
+
+    [backgroundView_ release], backgroundView_ = nil;
+    [selectedBackgroundView_ release], selectedBackgroundView_ = nil;
+
+    [title_ release], title_ = nil;
+    [image_ release], image_ = nil;
+    [selectedImage_ release], selectedImage_ = nil;
     [super dealloc];
 }
 
