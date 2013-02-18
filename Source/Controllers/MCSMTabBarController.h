@@ -20,6 +20,14 @@ typedef enum MCSMTabBarControllerTabBarPosition : NSUInteger{
     MCSMTabBarControllerTabBarPositionTop
 }MCSMTabBarControllerTabBarPosition;
 
+
+typedef enum MCSMTabBarControllerTabBarShowHideDirection : NSUInteger{
+    MCSMTabBarControllerTabBarShowHideDirectionTopToBottom,
+    MCSMTabBarControllerTabBarShowHideDirectionBottomToTop,
+    MCSMTabBarControllerTabBarShowHideDirectionLeftToRight,
+    MCSMTabBarControllerTabBarShowHideDirectionRightToLeft
+}MCSMTabBarControllerTabBarShowHideDirection;
+
 @interface MCSMTabBarController : UIViewController <MCSMTabBarDataSource, MCSMTabBarDelegate>
 
 @property (nonatomic,assign) id <MCSMTabBarControllerDataSource> tabBarControllerDataSource;
@@ -33,7 +41,8 @@ typedef enum MCSMTabBarControllerTabBarPosition : NSUInteger{
 @property (nonatomic,assign) NSUInteger selectedIndex;
 
 @property (nonatomic,retain) MCSMTabBar *tabBar;
-@property (nonatomic,assign, getter = isTabBarHidden) BOOL tabBarHidden; 
+@property (nonatomic,assign, getter = isTabBarHidden) BOOL tabBarHidden;
+@property (nonatomic,assign, getter = isTabBarAnimating,readonly) BOOL tabBarAnimating;
 
 @property (nonatomic,assign) BOOL obeysHidesBottomBarWhenPushed;
 
@@ -41,7 +50,9 @@ typedef enum MCSMTabBarControllerTabBarPosition : NSUInteger{
 - (id)initWithStyle:(MCSMTabBarStyle)style;
 
 - (void)setViewControllers:(NSArray *)viewControllers animated:(BOOL)animated;
+
 - (void)setTabBarHidden:(BOOL)hidden animated:(BOOL)animated;
+- (void)setTabBarHidden:(BOOL)hidden direction:(MCSMTabBarControllerTabBarShowHideDirection)direction animated:(BOOL)animated completion:(void (^)(void))completion;
 
 @end
 
@@ -51,13 +62,19 @@ typedef enum MCSMTabBarControllerTabBarPosition : NSUInteger{
 
 - (MCSMTabBarItemView *)tabBarController:(MCSMTabBarController *)tabBarController tabBarItemViewForViewController:(UIViewController *)viewController;
 
+- (NSString *)tabBarController:(MCSMTabBarController *)tabBarController titleForViewController:(UIViewController *)viewController;
+
+- (UIImage *)tabBarController:(MCSMTabBarController *)tabBarController imageForViewController:(UIViewController *)viewController;
+- (UIImage *)tabBarController:(MCSMTabBarController *)tabBarController selectedImageForViewController:(UIViewController *)viewController;
+- (UIImage *)tabBarController:(MCSMTabBarController *)tabBarController unfinishedImageForViewController:(UIViewController *)viewController;
+
 @end
 
 @protocol MCSMTabBarControllerDelegate <NSObject>
 
 @optional
 
-- (CGFloat)tabBarController:(MCSMTabBarController *)tabBarController tabBar:(MCSMTabBar *)tabBar widthForTabAtIndex:(NSInteger)index;
+- (CGFloat)tabBarController:(MCSMTabBarController *)tabBarController widthForTabAtIndex:(NSInteger)index;
 
 - (BOOL)tabBarController:(MCSMTabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController;
 - (void)tabBarController:(MCSMTabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController;

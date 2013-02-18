@@ -9,6 +9,9 @@
 #import "MCSMTabBarController.h"
 #import "MCSMTabBarItemView.h"
 
+
+const CGFloat MCSMTabBarControllerHideShowBarDuration = 0.35;
+
 @implementation MCSMTabBarController
 
 @synthesize tabBarControllerDataSource = tabBarControllerDataSource_;
@@ -19,6 +22,7 @@
 
 @synthesize tabBar = tabBar_;
 @synthesize tabBarHidden = tabBarHidden_;
+@synthesize tabBarAnimating = tabBarAnimating_;
 
 @synthesize obeysHidesBottomBarWhenPushed = obeysHidesBottomBarWhenPushed_;
 
@@ -26,6 +30,7 @@
     
     if((self = [super init])){
         tabBarPosition_ = MCSMTabBarControllerTabBarPositionBottom;
+        tabBarHidden_ = NO;
         obeysHidesBottomBarWhenPushed_ = YES;
     }
     
@@ -123,6 +128,10 @@
             {
                 viewControllerViewBounds.origin.y = self.tabBar.frame.size.height;
             }
+            
+            [self setTabBarHidden:NO animated:NO];
+        }else{
+            [self setTabBarHidden:YES animated:NO];
         }
         
         [viewController.view setFrame:viewControllerViewBounds];
@@ -145,41 +154,123 @@
  
     if(hidden)
     {
-        [UIView animateWithDuration:(animated ? UINavigationControllerHideShowBarDuration : 0) 
+         if(self.tabBarPosition == MCSMTabBarControllerTabBarPositionBottom)
+         {
+             [self setTabBarHidden:hidden direction:MCSMTabBarControllerTabBarShowHideDirectionTopToBottom animated:animated completion:NULL];
+         }else if(self.tabBarPosition == MCSMTabBarControllerTabBarPositionTop)
+         {
+             [self setTabBarHidden:hidden direction:MCSMTabBarControllerTabBarShowHideDirectionBottomToTop animated:animated completion:NULL];
+         }
+
+                
+    }else{
+        
+        if(self.tabBarPosition == MCSMTabBarControllerTabBarPositionBottom)
+        {
+            [self setTabBarHidden:hidden direction:MCSMTabBarControllerTabBarShowHideDirectionBottomToTop animated:animated completion:NULL];
+
+        }else if(self.tabBarPosition == MCSMTabBarControllerTabBarPositionTop)
+        {
+            [self setTabBarHidden:hidden direction:MCSMTabBarControllerTabBarShowHideDirectionTopToBottom animated:animated completion:NULL];
+        }
+    }
+}
+
+- (void)setTabBarHidden:(BOOL)hidden direction:(MCSMTabBarControllerTabBarShowHideDirection)direction animated:(BOOL)animated completion:(void (^)(void))completion{
+    
+    if(hidden)
+    {
+        
+        UIViewController *viewController = [self.viewControllers objectAtIndex:self.selectedIndex];
+        CGRect viewControllerViewBounds = self.view.bounds;
+        [viewController.view setFrame:viewControllerViewBounds];
+        
+        [UIView animateWithDuration:(animated ? MCSMTabBarControllerHideShowBarDuration : 0)
                          animations:^{
                              
-                             UIViewController *viewController = [self.viewControllers objectAtIndex:self.selectedIndex];
-                             CGRect viewControllerViewBounds = self.view.bounds;
-                             [viewController.view setFrame:viewControllerViewBounds];
+                             [self willChangeValueForKey:@"tabBarAnimating"];
+                             tabBarAnimating_ = YES;
+                             [self didChangeValueForKey:@"tabBarAnimating"];
                              
                              CGRect tabBarFrame =  self.tabBar.frame;
                              tabBarFrame.origin.x = 0;
-                             tabBarFrame.origin.y = self.view.bounds.size.height;
+                             
+                             if(direction == MCSMTabBarControllerTabBarShowHideDirectionTopToBottom)
+                             {
+                                 tabBarFrame.origin.x = 0;
+                                 tabBarFrame.origin.y = self.view.bounds.size.height;
+                             }else if(direction == MCSMTabBarControllerTabBarShowHideDirectionBottomToTop)
+                             {
+                                 tabBarFrame.origin.x = 0;
+                                 tabBarFrame.origin.y = -tabBarFrame.size.height;
+                             }else if(direction == MCSMTabBarControllerTabBarShowHideDirectionLeftToRight)
+                             {
+                                 tabBarFrame.origin.x = self.view.bounds.size.width;
+                             }else if(direction == MCSMTabBarControllerTabBarShowHideDirectionRightToLeft)
+                             {
+                                 tabBarFrame.origin.x = -self.view.bounds.size.width;
+                             }
+                             
                              tabBarFrame.size.width = self.view.bounds.size.width;
                              self.tabBar.frame = tabBarFrame;
                              
                              [self.view bringSubviewToFront:self.tabBar];
                              
+                         }
+         
+                         completion:^(BOOL finished){
+                             tabBarHidden_ = YES;
+                             
+                             [self willChangeValueForKey:@"tabBarAnimating"];
+                             tabBarAnimating_ = NO;
+                             [self didChangeValueForKey:@"tabBarAnimating"];
+                             
+                             self.tabBar.hidden = YES;
+                             
+                             if(completion != NULL)
+                             {
+                                 completion();
+                             }
                          }];
-        
-        tabBarHidden_ = YES;
         
     }else{
         
-        [UIView animateWithDuration:(animated ? UINavigationControllerHideShowBarDuration : 0)
+        // Move the Hidden Tab Bar to its starting position
+        
+        if([self isTabBarHidden])
+        {
+            CGRect tabBarFrame =  self.tabBar.frame;
+            tabBarFrame.origin.x = 0;
+            
+            if(direction == MCSMTabBarControllerTabBarShowHideDirectionTopToBottom)
+            {
+                tabBarFrame.origin.x = 0;
+                tabBarFrame.origin.y = -tabBarFrame.size.height;
+            }else if(direction == MCSMTabBarControllerTabBarShowHideDirectionBottomToTop)
+            {
+                tabBarFrame.origin.x = 0;
+                tabBarFrame.origin.y = self.view.bounds.size.height;
+            }else if(direction == MCSMTabBarControllerTabBarShowHideDirectionLeftToRight)
+            {
+                tabBarFrame.origin.x = -self.view.bounds.size.width;
+            }else if(direction == MCSMTabBarControllerTabBarShowHideDirectionRightToLeft)
+            {
+                tabBarFrame.origin.x = self.view.bounds.size.width;
+            }
+            
+            tabBarFrame.size.width = self.view.bounds.size.width;
+            self.tabBar.frame = tabBarFrame;
+        }
+        
+        self.tabBar.hidden = NO;
+        
+        [UIView animateWithDuration:(animated ? MCSMTabBarControllerHideShowBarDuration : 0)
                          animations:^{
                              
-                             UIViewController *viewController = [self.viewControllers objectAtIndex:self.selectedIndex];
+                             [self willChangeValueForKey:@"tabBarAnimating"];
+                             tabBarAnimating_ = YES;
+                             [self didChangeValueForKey:@"tabBarAnimating"];
                              
-                             CGRect viewControllerViewBounds = self.view.bounds;
-                             viewControllerViewBounds.size.height -= self.tabBar.frame.size.height;
-                             
-                             if(self.tabBarPosition == MCSMTabBarControllerTabBarPositionTop)
-                             {
-                                 viewControllerViewBounds.origin.y = self.tabBar.frame.size.height;
-                             }
-                             
-                             [viewController.view setFrame:viewControllerViewBounds];
                              
                              CGRect tabBarFrame = self.tabBar.frame;
                              tabBarFrame.origin.x = 0;
@@ -195,9 +286,35 @@
                              self.tabBar.frame = tabBarFrame;
                              
                              [self.view bringSubviewToFront:self.tabBar];
+                             
+                         }
+         
+                         completion:^(BOOL finished){
+                             
+                             tabBarHidden_ = NO;
+                             
+                             [self willChangeValueForKey:@"tabBarAnimating"];
+                             tabBarAnimating_ = NO;
+                             [self didChangeValueForKey:@"tabBarAnimating"];
+                             
+                             UIViewController *viewController = [self.viewControllers objectAtIndex:self.selectedIndex];
+                             
+                             CGRect viewControllerViewBounds = self.view.bounds;
+                             viewControllerViewBounds.size.height -= self.tabBar.frame.size.height;
+                             
+                             if(self.tabBarPosition == MCSMTabBarControllerTabBarPositionTop)
+                             {
+                                 viewControllerViewBounds.origin.y = self.tabBar.frame.size.height;
+                             }
+                             
+                             [viewController.view setFrame:viewControllerViewBounds];
+                             
+                             if(completion != NULL)
+                             {
+                                 completion();
+                             }
+                             
                          }];
-        
-        tabBarHidden_ = NO;
         
     }
 }
@@ -346,6 +463,13 @@
 #pragma mark UINavigationController
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
+    
+    BOOL pushing = NO;
+    
+    if([[self.navigationController.viewControllers lastObject] isEqual:viewController])
+    {
+        pushing = YES;
+    }
 
     if([self.tabBarControllerDelegate respondsToSelector:@selector(tabBarController:navigationController:willShowViewController:animated:)])
     {
@@ -354,6 +478,32 @@
                                  willShowViewController:viewController 
                                                animated:animated];
     }
+    
+    if(self.obeysHidesBottomBarWhenPushed)
+    {
+        if([viewController hidesBottomBarWhenPushed])
+        {
+            if(![self isTabBarHidden])
+            {
+                [self setTabBarHidden:YES
+                            direction:(pushing ? MCSMTabBarControllerTabBarShowHideDirectionLeftToRight : MCSMTabBarControllerTabBarShowHideDirectionRightToLeft)
+                             animated:animated
+                           completion:NULL];
+            }
+            
+        }else{
+            
+            if([self isTabBarHidden])
+            {
+                [self setTabBarHidden:NO
+                            direction:(pushing ? MCSMTabBarControllerTabBarShowHideDirectionRightToLeft : MCSMTabBarControllerTabBarShowHideDirectionLeftToRight)
+                             animated:animated
+                           completion:NULL];
+            }
+        }
+    }
+    
+    [self.tabBar reloadTabs];
 }
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
 
@@ -365,16 +515,6 @@
                                                animated:animated];
     }
     
-    if(self.obeysHidesBottomBarWhenPushed)
-    {    
-        if([viewController hidesBottomBarWhenPushed])
-        {
-            [self setTabBarHidden:YES animated:animated];
-            
-        }else{
-            [self setTabBarHidden:NO animated:animated];
-        }
-    }
 }
 
 
@@ -390,9 +530,10 @@
     
     MCSMTabBarItemView *tabBarItemView = nil;
     
+    UIViewController *viewController = [self.viewControllers objectAtIndex:index];
+    
     if([self.tabBarControllerDataSource respondsToSelector:@selector(tabBarController:tabBarItemViewForViewController:)])
     {
-        UIViewController *viewController = [self.viewControllers objectAtIndex:index];
         tabBarItemView = [self.tabBarControllerDataSource tabBarController:self tabBarItemViewForViewController:viewController];
     }else if([[self.viewControllers objectAtIndex:index] tabBarItem]){
         
@@ -400,15 +541,43 @@
         
         tabBarItemView = [[[MCSMTabBarItemView alloc] initWithStyle:self.tabBar.style] autorelease];
         
-        [tabBarItemView setTitle:tabBarItem.title];
+        NSString *title = tabBarItem.title;
         
-        if(tabBarItem.finishedUnselectedImage && tabBarItem.finishedSelectedImage)
+        if([self.tabBarControllerDataSource respondsToSelector:@selector(tabBarController:titleForViewController:)])
         {
-            [tabBarItemView setImage:tabBarItem.finishedUnselectedImage];
-            [tabBarItemView setSelectedImage:tabBarItem.finishedUnselectedImage];
-        }else if(tabBarItem.image)
+            title = [self.tabBarControllerDataSource tabBarController:self titleForViewController:viewController];
+        }
+        
+        [tabBarItemView setTitle:title];
+        
+        UIImage *image = tabBarItem.finishedUnselectedImage;
+        
+        if([self.tabBarControllerDataSource respondsToSelector:@selector(tabBarController:imageForViewController:)])
         {
-            [tabBarItemView setUnfinishedImage:tabBarItem.image];
+            image = [self.tabBarControllerDataSource tabBarController:self imageForViewController:viewController];
+        }
+        
+        UIImage *selectedImage = tabBarItem.finishedSelectedImage;
+        
+        if([self.tabBarControllerDataSource respondsToSelector:@selector(tabBarController:selectedImageForViewController:)])
+        {
+            selectedImage = [self.tabBarControllerDataSource tabBarController:self selectedImageForViewController:viewController];
+        }
+        
+        UIImage *unfinishedImage = tabBarItem.image;
+        
+        if([self.tabBarControllerDataSource respondsToSelector:@selector(tabBarController:unfinishedImageForViewController:)])
+        {
+            unfinishedImage = [self.tabBarControllerDataSource tabBarController:self unfinishedImageForViewController:viewController];
+        }
+        
+        if(image && selectedImage)
+        {
+            [tabBarItemView setImage:image];
+            [tabBarItemView setSelectedImage:selectedImage];
+        }else if(unfinishedImage)
+        {
+            [tabBarItemView setUnfinishedImage:unfinishedImage];
         }
 
     }
@@ -424,10 +593,10 @@
     
     CGFloat tabWidth = MCSMTabBarAutomaticDimension;
     
-    if([self.tabBarControllerDelegate respondsToSelector:@selector(tabBarController:tabBar:widthForTabAtIndex:)])
+    if([self.tabBarControllerDelegate respondsToSelector:@selector(tabBarController:widthForTabAtIndex:)])
         
     {
-        tabWidth = [self.tabBarControllerDelegate tabBarController:self tabBar:tabBar widthForTabAtIndex:index];
+        tabWidth = [self.tabBarControllerDelegate tabBarController:self widthForTabAtIndex:index];
     }
         
     return tabWidth;

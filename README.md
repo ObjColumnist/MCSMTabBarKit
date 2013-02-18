@@ -13,14 +13,14 @@ Currently `MCSMTabBar` doesn't support badges or drag an drop customization.
 
 ## MCSMTabBar
 
-To use `MCSMTabBar` you simply need to initalize an instance and become its Data Source and more than likely its Delegate too:
+To use `MCSMTabBar` you simply need to initialize an instance and become its Data Source and more than likely its Delegate too:
 
 	MCSMTabBar *tabBar = [[MCSMTabBar alloc] initWithStyle:MCSMTabBarStyleDefault];
 	tabBar.tabBarDataSource = (id<MCSMTabBarDataSource>)self;
 	tabBar.tabBarDelegate = (id<MCSMTabBarDelegate>)self;
 
 
-If you want to customize the layout ot the Tab Bar you will want to subclass `MCSMTabBar` and set the style to `MCSMTabBarStyleCustom`
+If you want to customize the layout of the Tab Bar you will want to subclass `MCSMTabBar` and set the style to `MCSMTabBarStyleCustom`
 
 The Data Source only has 2 methods both of which are required:
 
@@ -100,7 +100,7 @@ Like `UITabBarController` `MCSMTabBarController` has numerous delegate methods t
 	
 	@optional
 	
-	- (CGFloat)tabBarController:(MCSMTabBarController *)tabBarController tabBar:(MCSMTabBar *)tabBar widthForTabAtIndex:(NSInteger)index;
+	- (CGFloat)tabBarController:(MCSMTabBarController *)tabBarController widthForTabAtIndex:(NSInteger)index;
 		
 	- (BOOL)tabBarController:(MCSMTabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController;
 	- (void)tabBarController:(MCSMTabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController;

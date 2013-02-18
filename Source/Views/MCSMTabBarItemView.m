@@ -65,13 +65,13 @@
     if (self) {
         
         imageView_ = [[UIImageView alloc] initWithFrame:CGRectZero];
-        imageView_.contentMode = UIViewContentModeScaleAspectFit;
+        imageView_.contentMode = UIViewContentModeCenter;
         [self addSubview:imageView_];
         
         textLabel_ = [[UILabel alloc] initWithFrame:CGRectZero];
         textLabel_.textColor = [UIColor grayColor];
         textLabel_.highlightedTextColor = [UIColor whiteColor];
-        textLabel_.textAlignment = UITextAlignmentCenter;
+        textLabel_.textAlignment = NSTextAlignmentCenter;
         textLabel_.font = [UIFont boldSystemFontOfSize:11];
         textLabel_.backgroundColor = [UIColor clearColor];
         [self addSubview:textLabel_];        
