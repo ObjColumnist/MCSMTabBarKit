@@ -56,7 +56,7 @@
     
 }
 
-+ (id)tabBarItemViewWithStyle:(MCSMTabBarItemViewStyle)style{
++ (instancetype)tabBarItemViewWithStyle:(MCSMTabBarItemViewStyle)style{
     return [[[[self class] alloc] initWithStyle:style] autorelease];
 }
 

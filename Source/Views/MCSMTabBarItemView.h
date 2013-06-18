@@ -35,7 +35,7 @@ typedef enum MCSMTabBarItemViewStyle : NSUInteger{
 + (UIImage *)imageForUnfinishedImage:(UIImage *)image style:(MCSMTabBarItemViewStyle)style;
 + (UIImage *)selectedImageForUnfinishedImage:(UIImage *)image style:(MCSMTabBarItemViewStyle)style;
 
-+ (id)tabBarItemViewWithStyle:(MCSMTabBarItemViewStyle)style;
++ (instancetype)tabBarItemViewWithStyle:(MCSMTabBarItemViewStyle)style;
 
 - (id)initWithStyle:(MCSMTabBarItemViewStyle)style;
 
