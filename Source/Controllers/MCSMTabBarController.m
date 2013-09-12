@@ -550,15 +550,21 @@ const CGFloat MCSMTabBarControllerHideShowBarDuration = 0.35;
         
         [tabBarItemView setTitle:title];
         
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+        UIImage *image = tabBarItem.image;
+#else
         UIImage *image = tabBarItem.finishedUnselectedImage;
-        
+#endif
         if([self.tabBarControllerDataSource respondsToSelector:@selector(tabBarController:imageForViewController:)])
         {
             image = [self.tabBarControllerDataSource tabBarController:self imageForViewController:viewController];
         }
         
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+        UIImage *selectedImage = tabBarItem.selectedImage;
+#else
         UIImage *selectedImage = tabBarItem.finishedSelectedImage;
-        
+#endif
         if([self.tabBarControllerDataSource respondsToSelector:@selector(tabBarController:selectedImageForViewController:)])
         {
             selectedImage = [self.tabBarControllerDataSource tabBarController:self selectedImageForViewController:viewController];
